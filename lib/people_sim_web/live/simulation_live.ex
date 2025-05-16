@@ -21,7 +21,7 @@ defmodule PeopleSimWeb.SimulationLive do
   def render(assigns) do
     ~H"""
     <div class="container mx-auto">
-      <h1 class="text-2xl font-bold my-4">People Simulation</h1>
+      <h1 class="text-2xl font-bold my-4">Elixir neighborhood</h1>
 
       <div
         id="people"
@@ -31,7 +31,10 @@ defmodule PeopleSimWeb.SimulationLive do
         <%= for {dom_id, person} <- @streams.people do %>
           <div
             id={dom_id}
-            class={["border rounded-md p-4 shadow-sm", person.needs.energy <= 0 && "opacity-30"]}
+            class={[
+              "rounded-md p-4 border border-gray-600",
+              person.needs.energy <= 0 && "opacity-30"
+            ]}
           >
             <h3 class="font-bold">{person.name}</h3>
             <div class="mt-2">

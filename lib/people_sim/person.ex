@@ -23,7 +23,7 @@ defmodule PeopleSim.Person do
       needs: %{
         energy: 100,
         hunger: 0,
-        social: 0
+        social: 100
       }
     }
 
@@ -85,7 +85,7 @@ defmodule PeopleSim.Person do
         %{needs | energy: max(needs.energy - 3, 0), hunger: needs.hunger + 2}
 
       "socializing" ->
-        %{needs | social: min(needs.social + 5, 100), energy: max(needs.energy - 1, 0)}
+        %{needs | social: max(needs.social - 10, 0), energy: max(needs.energy - 2, 0)}
 
       _ ->
         needs

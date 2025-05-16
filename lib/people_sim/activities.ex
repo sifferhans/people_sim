@@ -59,7 +59,7 @@ defmodule PeopleSim.Activities do
       {"shopping", "store", "browsing"},
       {"walking", "park", "enjoying outdoors"},
       {"coffee break", "cafe", "sipping coffee"},
-      {"meeting friends", "cafe", "socializing"},
+      {"socializing", "cafe", "meeting friends"},
       {"browsing internet", person.location, "online"}
     ]
 
