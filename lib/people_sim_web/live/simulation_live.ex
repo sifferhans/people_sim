@@ -7,17 +7,15 @@ defmodule PeopleSimWeb.SimulationLive do
       PubSub.subscribe()
     end
 
-    {:ok, assign(socket, people: %{})}
+    {:ok, stream(socket, :people, [])}
   end
 
   def handle_info({:person_delete, person}, socket) do
-    updated_people = Map.delete(socket.assigns.people, person.id)
-    {:noreply, assign(socket, people: updated_people)}
+    {:noreply, stream_delete(socket, :people, person)}
   end
 
   def handle_info({:person_update, person}, socket) do
-    updated_people = Map.put(socket.assigns.people, person.id, person)
-    {:noreply, assign(socket, people: updated_people)}
+    {:noreply, stream_insert(socket, :people, person)}
   end
 
   def render(assigns) do
@@ -25,9 +23,16 @@ defmodule PeopleSimWeb.SimulationLive do
     <div class="container mx-auto">
       <h1 class="text-2xl font-bold my-4">People Simulation</h1>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 text-sm">
-        <%= for {_id, person} <- @people do %>
-          <div class={["border rounded-md p-4 shadow-sm", person.needs.energy <= 0 && "opacity-30"]}>
+      <div
+        id="people"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 text-sm"
+        phx-update="stream"
+      >
+        <%= for {dom_id, person} <- @streams.people do %>
+          <div
+            id={dom_id}
+            class={["border rounded-md p-4 shadow-sm", person.needs.energy <= 0 && "opacity-30"]}
+          >
             <h3 class="font-bold">{person.name}</h3>
             <div class="mt-2">
               <div><span class="font-semibold">Status:</span> {person.status}</div>
